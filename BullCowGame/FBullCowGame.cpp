@@ -7,6 +7,8 @@
 //
 
 #include "FBullCowGame.hpp"
+#include <map>
+#define TMap std::map
 
 FBullCowGame::FBullCowGame() { Reset(); }
 
@@ -32,10 +34,23 @@ EGuessStatus FBullCowGame::GetGuessValidity(FString Guess) const {
         return EGuessStatus::Incorrect_Length;
     else if (false) { // TODO: Write functions to check lowercase
         return EGuessStatus::Not_Lowercase;
-    } else if (false) {
-        return EGuessStatus::Not_Isogram; // TODO: Write functions to check isogram
+    } else if (!IsIsogram(Guess)) {
+        return EGuessStatus::Not_Isogram;
     }
     return EGuessStatus::OK;
+}
+
+bool FBullCowGame::IsIsogram(FString Guess) const {
+    
+    if (Guess.length() <= 1) { return true; }
+    TMap<char, bool> UsedLetters;
+    for (auto c : Guess) {
+        c = tolower(c);
+        if (UsedLetters[c])
+            return false;
+        UsedLetters[c] = true;
+    }
+    return true;
 }
 
 // Receives a valid guess and increments try and return count.

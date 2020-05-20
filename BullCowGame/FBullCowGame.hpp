@@ -48,6 +48,7 @@ private:
     int32 MyMaxTries;
     FString MyHiddenWord;
     bool bGameWon;
+    bool IsIsogram(FString Guess) const;
 };
 
 #endif /* FBullCowGame_hpp */
