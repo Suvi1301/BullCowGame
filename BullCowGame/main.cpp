@@ -19,6 +19,7 @@ using int32 = int;
 
 void IntroduceGame();
 void PlayGame();
+void PrintGameSummary();
 FText GetValidGuess();
 bool AskToPlayAgain();
 
@@ -45,19 +46,23 @@ void PlayGame() {
     BCGame.Reset();
     int32 MaxTries = BCGame.GetMaxTries();
     
-    // Loop for the number of turns asking for guesses.
-    // TODO: change to while loop once we can validate a guess.
-    for (int32 i = 0; i < MaxTries; ++i) {
+    while (!BCGame.IsGameWon() && BCGame.GetCurrentTry() <= MaxTries) {
         FText Guess = GetValidGuess();
-        
         FBullCowCount BullCowCount = BCGame.SubmitValidGuess(Guess);
         
         std::cout << "Bulls: " << BullCowCount.Bulls;
         std::cout << ". Cows: " << BullCowCount.Cows << std::endl;
         std::cout << std::endl;
     }
-    
-    // TODO: Summarise game
+    PrintGameSummary();
+}
+
+void PrintGameSummary() {
+    if (BCGame.IsGameWon())
+        std::cout << "WELL DONE! YOU WIN!\n";
+    else
+        std::cout << "BETTER LUCK NEXT TIME :(\n";
+    std::cout << std::endl;
 }
 
 FText GetValidGuess() {
@@ -90,7 +95,7 @@ FText GetValidGuess() {
 }
 
 bool AskToPlayAgain() {
-    std::cout << "Would you like to play again? (y/n): ";
+    std::cout << "Would you like to play again with the same isogram? (y/n): ";
     FText Answer = "";
     std::getline(std::cin, Answer);
     return Answer[0] == 'y' || Answer[0] == 'Y';
