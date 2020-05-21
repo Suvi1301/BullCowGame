@@ -36,7 +36,15 @@ int main(int32 argc, const char * argv[]) {
 
 void IntroduceGame() {
     // Print intro to game.
-    std::cout << "Welcome to Bulls and Cows!\n";
+    std::cout << "        Welcome to Bulls and Cows!\n";
+    std::cout << std::endl;
+    std::cout << "          }   {         ___ " << std::endl;
+    std::cout << "          (o o)        (o o) " << std::endl;
+    std::cout << "   /-------\\ /          \\ /-------\\ " << std::endl;
+    std::cout << "  / | BULL |O            O| COW  | \\ " << std::endl;
+    std::cout << " *  |-,--- |              |------|  * " << std::endl;
+    std::cout << "    ^      ^              ^      ^ " << std::endl;
+    std::cout << std::endl;
     std::cout << "Can you guess the " << BCGame.GetHiddenWordLength() << " letter isogram I'm thinking of?\n";
     std::cout << std::endl;
     return;
@@ -77,19 +85,18 @@ FText GetValidGuess() {
         Status = BCGame.GetGuessValidity(Guess);
         switch (Status) {
             case EGuessStatus::Incorrect_Length:
-                std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word.\n";
+                std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word.\n\n";
                 break;
             case EGuessStatus::Not_Isogram:
-                std::cout << "Please enter a word without repeating letters.\n";
+                std::cout << "Please enter a word without repeating letters.\n\n";
                 break;
             case EGuessStatus::Not_Lowercase:
-                std::cout << "Please enter all lowercase letters.\n";
+                std::cout << "Please enter all lowercase letters.\n\n";
                 break;
             case EGuessStatus::Invalid_Status:
             default:
                 break;
         }
-        std::cout << std::endl;
     } while (Status != EGuessStatus::OK);
     return Guess;
 }
@@ -100,4 +107,3 @@ bool AskToPlayAgain() {
     std::getline(std::cin, Answer);
     return Answer[0] == 'y' || Answer[0] == 'Y';
 }
-
