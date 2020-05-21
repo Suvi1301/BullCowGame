@@ -38,7 +38,7 @@ public:
     EGuessStatus GetGuessValidity(FString Guess) const;
     bool IsGameWon() const;
     
-    void Reset(); // TODO: Make a more rich return value.
+    void Reset(int32 WordLength);
     
     FBullCowCount SubmitValidGuess(FString Guess);
     

@@ -10,7 +10,7 @@
 #include <map>
 #define TMap std::map
 
-FBullCowGame::FBullCowGame() { Reset(); }
+FBullCowGame::FBullCowGame() { Reset(3); }
 
 int32 FBullCowGame::GetCurrentTry() const { return MyCurrentTry; }
 int32 FBullCowGame::GetHiddenWordLength() const { return (int32) MyHiddenWord.length(); }
@@ -21,11 +21,11 @@ int32 FBullCowGame::GetMaxTries() const {
     return WordLengthToMaxTries[GetHiddenWordLength()];
 }
 
-void FBullCowGame::Reset() {
-    const FString HiddenWord = "planet";
+void FBullCowGame::Reset(int32 WordLength) {
+    TMap<int32, FString> WordMap { {3, "dog"}, {4, "park"}, {5, "plane"}, {6, "donkey"}, {7, "account"} };
     
     MyCurrentTry = 1;
-    MyHiddenWord = HiddenWord;
+    MyHiddenWord = WordMap[WordLength];
     bGameWon = false;
     return;
 }

@@ -18,17 +18,19 @@ using FText = std::string; // Following Unreal standards (user interaction).
 using int32 = int;
 
 void IntroduceGame();
-void PlayGame();
+void PlayGame(int32 WordLength);
 void PrintGameSummary();
 FText GetValidGuess();
 bool AskToPlayAgain();
+int32 AskForWordLength();
 
 FBullCowGame BCGame;
 
 int main(int32 argc, const char * argv[]) {
     do {
         IntroduceGame();
-        PlayGame();
+        int32 WordLength = AskForWordLength();
+        PlayGame(WordLength);
     } while (AskToPlayAgain());
     
     return 0;
@@ -45,15 +47,14 @@ void IntroduceGame() {
     std::cout << " *  |-,--- |              |------|  * " << std::endl;
     std::cout << "    ^      ^              ^      ^ " << std::endl;
     std::cout << std::endl;
-    std::cout << "Can you guess the " << BCGame.GetHiddenWordLength() << " letter isogram I'm thinking of?\n";
-    std::cout << std::endl;
     return;
 }
 
-void PlayGame() {
-    BCGame.Reset();
+void PlayGame(int32 WordLength) {
+    BCGame.Reset(WordLength);
     int32 MaxTries = BCGame.GetMaxTries();
-    
+    std::cout << "Can you guess the " << BCGame.GetHiddenWordLength() << " letter isogram I'm thinking of?\n";
+    std::cout << std::endl;
     while (!BCGame.IsGameWon() && BCGame.GetCurrentTry() <= MaxTries) {
         FText Guess = GetValidGuess();
         FBullCowCount BullCowCount = BCGame.SubmitValidGuess(Guess);
@@ -63,6 +64,19 @@ void PlayGame() {
         std::cout << std::endl;
     }
     PrintGameSummary();
+}
+
+int32 AskForWordLength() {
+    int32 WordLength = 3;
+    do {
+        std::cout << "What word length would you like to guess? (3 to 7): ";
+        std::cin >> WordLength;
+        std::cin.ignore();
+        if (WordLength < 3 || WordLength > 7)
+            std::cout << "Length must be between 3 and 7\n\n";
+    } while (WordLength < 3 || WordLength > 7);
+    std::cout << std::endl;
+    return WordLength;
 }
 
 void PrintGameSummary() {
@@ -102,7 +116,7 @@ FText GetValidGuess() {
 }
 
 bool AskToPlayAgain() {
-    std::cout << "Would you like to play again with the same isogram? (y/n): ";
+    std::cout << "Would you like to play again? (y/n): ";
     FText Answer = "";
     std::getline(std::cin, Answer);
     return Answer[0] == 'y' || Answer[0] == 'Y';
