@@ -49,7 +49,7 @@ private:
     FString MyHiddenWord;
     bool bGameWon;
     bool IsIsogram(FString Guess) const;
+    bool IsLowerCase(FString Guess) const;
 };
 
 #endif /* FBullCowGame_hpp */
-
